@@ -1,0 +1,52 @@
+import random
+from prettytable import PrettyTable
+
+a0 = random.randint(0, 8)
+a1 = random.randint(0, 8)
+a2 = random.randint(0, 8)
+a3 = random.randint(0, 8)
+
+x1 = [random.randint(0, 20) for i in range(8)]
+x2 = [random.randint(0, 20) for j in range(8)]
+x3 = [random.randint(0, 20) for k in range(8)]
+
+
+#------Y
+Y = []
+for num in range(8):
+    y = a0 + a1*x1[num]+a2*x2[num]+a3*x3[num]
+    Y.append(y)
+
+#------x0
+x0_1 = (max(x1) + min(x1))/2
+x0_2 = (max(x2) + min(x2))/2
+x0_3 = (max(x3) + min(x3))/2
+
+#------dx
+dx_1 = x0_1 - min(x1)
+dx_2 = x0_2 - min(x2)
+dx_3 = x0_3 - min(x3)
+
+
+#-----xn1, xn2, xn3
+xn1 = [round((x1[i]-x0_1)/dx_1, 2) for i in range(8)]
+xn2 = [round((x2[i]-x0_2)/dx_2, 2) for i in range(8)]
+xn3 = [round((x3[i]-x0_3)/dx_3, 2) for i in range(8)]
+
+#Yэт---
+Y_et = a0 + a1*x0_1 + a2*x0_2 + a3*x0_3
+
+#---Table
+x = PrettyTable()
+x.field_names = ["№", "x1", "x2", "x3", "Y", "Xn1", "Xn2", "Xn3"]
+for elem in range(0, 8):
+    x.add_row([elem+1, x1[elem], x2[elem], x3[elem], Y[elem], xn1[elem], xn2[elem], xn3[elem]])
+x.add_row(["x0", x0_1, x0_2, x0_3, Y_et, "", "", ""])
+x.add_row(["dx", dx_1, dx_2, dx_3, "", "", "", ""])
+
+def var_4():
+    y_et = [i for i in Y if i < Y_et]
+    return max(y_et)
+
+print(x)
+print("Variant_4:", f"Yэт <- {var_4()}")
