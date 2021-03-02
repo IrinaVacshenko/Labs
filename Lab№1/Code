@@ -1,5 +1,8 @@
 import random
 from prettytable import PrettyTable
+import time 
+
+start_time = time.monotonic()
 
 a0 = random.randint(0, 8)
 a1 = random.randint(0, 8)
@@ -50,3 +53,5 @@ def var_4():
 
 print(x)
 print("Variant_4:", f"Yэт <- {var_4()}")
+
+print(f"Прошло --- {time.monotonic() - start_time} --- seconds")
