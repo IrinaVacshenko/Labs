@@ -1,3 +1,4 @@
+import random
 import numpy as np
 import math
 
@@ -21,10 +22,7 @@ Rkr = {2: (1.73, 1.72, 1.71, 1.69),
 
 
 y_matrix = np.random.randint(*y_min_max, size=(3, m))
-#y_matrix = [[205, 233, 268, 239, 262],
-#            [190, 269, 222, 235, 270],
-#            [170, 232, 179, 236, 170]
-#            ]
+
 labels_table = ["x1", "x2"] + ["y{}".format(i+1) for i in range(m)]
 rows_table = [x_table[i] + list(y_matrix[i]) for i in range(3)]
 
