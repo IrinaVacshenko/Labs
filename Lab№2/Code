@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import math
+import sys
 
 variant = 4
 m = 5
@@ -36,12 +37,13 @@ Sigma_tn = [((m - 2))/m * Fuv_n[num] for num in range(3)]
 R_n = [abs(Sigma_tn[num] - 1)/sigma_teta for num in range(3)]
 
 
-def odnoridna_dispersion():
-    M = min(Rkr, key=lambda x: abs(x - m))
+M = min(Rkr, key=lambda x: abs(x - m))
     p = 0
     for ruv in (R_n[0], R_n[1], R_n[2]):
         if ruv > Rkr[M][0]:
-            return "неоднорідна"
+            sys.exit()
+            #print("неоднорідна")
+            
         for rkr in range(len(Rkr[M])):
             if ruv < Rkr[M][rkr]:
                 p = rkr
