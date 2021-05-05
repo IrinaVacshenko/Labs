@@ -3,6 +3,7 @@ import sklearn.linear_model as lm
 from scipy.stats import f, t
 from functools import partial
 from pyDOE2 import *
+import time
 
 x_range = ((-5, 8), (-1, 4), (-4, 2))
 x_maxavr = (8 + 4 - 2)/3
@@ -92,14 +93,18 @@ def find_coef(X, Y, norm=False):
 def count_dispersion(y, y_avarg, n, m):
     y_var = np.var(y, axis=1)
     return y_var
-
-
+    
+#------------
 def check_criter_Cochran(y, y_avarg, n, m):
+    start_time = time.monotonic()
     S_kv = count_dispersion(y, y_avarg, n, m)
     Gp = max(S_kv) / sum(S_kv)
     print('\nПеревірка за критерієм Кохрена')
+    end_time = time.monotonic()
+    time_C = (end_time - start_time) * 1000
+    print(f"Час виконання Кохрена: {time_C:.3f} ms")
     return Gp
-
+#------------
 
 def cohren(f1, f2, q=0.05):
     q1 = q / f1
@@ -121,21 +126,32 @@ def s_kv(y, y_aver, n, m):
         res.append(round(s, 3))
     return res
 
+#------------
 def kriteriy_studenta(x, y, y_aver, n, m):
+    start_time = time.monotonic()
     S_kv = s_kv(y, y_aver, n, m)
     s_kv_aver = sum(S_kv) / n
 
     s_Bs = (s_kv_aver / n / m) ** 0.5
     Bs = bs(x, y_aver, n)
     ts = [round(abs(B) / s_Bs, 3) for B in Bs]
+    end_time = time.monotonic()
+    time_S = (end_time - start_time) * 1000
+    print(f"Час виконання Стьюдента: {time_S:.3f} ms")
     return ts
+#------------
 
-
+#------------
 def adequacy_Fishera(y, y_avarg, y_new, n, m, d):
+    start_time = time.monotonic()
     S_ad = m / (n - d) * sum([(y_new[i] - y_avarg[i])**2 for i in range(len(y))])
     S_kv = count_dispersion(y, y_avarg, n, m)
     S_kv_aver = sum(S_kv) / n
+    end_time = time.monotonic()
+    time_F = (end_time - start_time) * 1000
+    print(f"Час виконання Фiшера: {time_F:.3f} ms")
     return S_ad / S_kv_aver
+#------------
 
 #Перевiрка
 def check(X, Y, B, n, m):
@@ -204,6 +220,7 @@ def main(n, m):
     B5 = find_coef(X5, y5_aver)
 
     check(X5_norm, Y5, B5, n, m)
+
 
 if __name__ == '__main__':
     main(15, 3)
