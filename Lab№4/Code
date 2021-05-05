@@ -183,6 +183,7 @@ def check(X, Y, B, n, m, norm=False):
         return False
 
 
+
 def with_interaction_effect(n, m):
     X, Y, X_norm = planing_matrix(n, m)
 
@@ -271,7 +272,7 @@ def linear(n, m):
     cohren_cr_table = cohren / (cohren + f1 - 1)
     Gp = max(dispersion_arr) / sum(dispersion_arr)
 
-    print('\nПеревірка за критерієм Кохрена:\n')
+    print('\nПеревірка за критерієм Кохрена:')
     print(f'Розрахункове значення: Gp = {Gp}'
           f'\nТабличне значення: Gt = {cohren_cr_table}')
     if Gp < cohren_cr_table:
@@ -304,24 +305,26 @@ def linear(n, m):
     Fp = kriteriy_F(y, y_average, y_new, n, m, d, dispersion_arr)
     Ft = f.ppf(dfn=f4, dfd=f3, q=1 - 0.05)
 
-    print('\nПеревірка адекватності за критерієм Фішера:\n')
+
+    print('\nПеревірка адекватності за критерієм Фішера:')
     print('Розрахункове значення: Fp =', Fp)
     print('Табличне значення: Ft =', Ft)
     if Fp < Ft:
         print('Математична модель адекватна')
-        return True
     else:
         print('Математична модель не адекватна')
-        return False
+
+
+    print("-----Task------")
+    q_a = [0.95, 0.96, 0.97, 0.98, 0.99, 0.1, 1.05, 1.1, 1.2]
+    for i in range(len(q_a)):
+        Ft = f.ppf(q=i, dfn=f4, dfd=f3)
+        if Fp > Ft:
+            print("Рівняння регресії при q=0.05 не є адекватною")
 
 
 def main(n, m):
     main_1 = linear(n, m)
-    if not main_1:
-        interaction_effect = with_interaction_effect(n, m)
-        if not interaction_effect:
-            main(n, m)
-
 
 if __name__ == '__main__':
     main(8, 3)
