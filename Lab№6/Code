@@ -251,7 +251,7 @@ def launch():
             print("Рівняння регресії неадекватне  оригіналу\n\t Проводимо експеремент повторно")
     return adekvat
 
-
+#--------Task----------
 if __name__ == '__main__':
     time_lst = []
     for i in range(0, 10):
